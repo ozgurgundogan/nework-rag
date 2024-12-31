@@ -1,0 +1,6 @@
+FROM python:3.9-slim
+
+COPY . .
+RUN pip install poetry && poetry install
+
+CMD ["poetry", "run", "python", "data_loader.py"]

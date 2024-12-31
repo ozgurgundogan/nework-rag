@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb_data:/data/db
+      - ./init_db.js:/docker-entrypoint-initdb.d/init_db.js
+    restart: always
+
+  data-loader:
+    build:
+      context: .
+      dockerfile: Dockerfile.data_loader
+    depends_on:
+      - mongo
+
+  relationship-updater:
+    build:
+      context: .
+      dockerfile: Dockerfile.relationship_updater
+    depends_on:
+      - mongo
